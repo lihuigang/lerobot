@@ -1,0 +1,14 @@
+# CUDA training and SO-101 rollout environment on Jetson Orin / JetPack 6.2.
+# Keep the NVIDIA-provided PyTorch and torchvision builds: generic PyPI wheels
+# do not provide a compatible Jetson CUDA runtime.
+FROM nvcr.io/nvidia/pytorch:25.06-py3-igpu
+
+ARG PIP_INDEX_URL=https://pypi.org/simple
+COPY requirements.so101_cuda.txt /tmp/requirements.so101_cuda.txt
+# Drop unused NLP packages from this training and rollout image to keep dependencies minimal.
+RUN python3 -m pip uninstall -y spacy thinc \
+    && python3 -m pip install --no-cache-dir --index-url "$PIP_INDEX_URL" \
+        -r /tmp/requirements.so101_cuda.txt \
+    && python3 -m pip check
+
+WORKDIR /work/lerobot

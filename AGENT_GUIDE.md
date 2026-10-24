@@ -2,6 +2,8 @@
 
 This file is a practical, copy-paste-friendly companion for any AI agent (Cursor, Claude, ChatGPT, Codex, etc.) helping a user work with LeRobot. It complements [`AGENTS.md`](./AGENTS.md) (dev/contributor context) with **user-facing guidance**: how to start, what to train, how long, how to record, and how to calibrate an SO-101.
 
+For the current `192.168.1.9` SO-101 setup, including its exact ports, calibration paths, cameras, and the current `lerobot-rollout` workflow, use [`SO101_COMMANDS.md`](./SO101_COMMANDS.md).
+
 ---
 
 ## 1. Start here — ask the user first (MANDATORY)

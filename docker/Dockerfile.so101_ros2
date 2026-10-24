@@ -1,0 +1,36 @@
+# ROS2 Jazzy layer on top of the SO-101 CUDA runtime image.
+#
+# The base image (lerobot-so101-cuda:jp6.2-io) is Ubuntu 24.04 / python3.12, so
+# the matching ROS2 distribution is Jazzy. We add ros-base plus the standard
+# message/service packages used by the SO-101 nodes (no cv_bridge: the camera node
+# builds sensor_msgs/Image directly from numpy), and rosbridge_server so an
+# external MCP client (ros-mcp-server) can talk to the ROS graph over WebSocket.
+# rosbridge-server depends on rosapi, which powers topic/node/service introspection.
+FROM lerobot-so101-cuda:jp6.2-io
+
+SHELL ["/bin/bash", "-c"]
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=jazzy
+
+# Add the ROS2 apt repository (Ubuntu 24.04 "noble", arm64).
+# Note: the ROS signing key served by packages.ros.org (F42ED6FBAB17C654) expired
+# on 2025-06-01, and the rotated key is only distributed via github.com, which is
+# not reachable from this host. The repository is therefore marked as trusted to
+# keep the build working; switch back to signed-by once a valid key source is
+# available.
+RUN echo "deb [arch=arm64 trusted=yes] http://packages.ros.org/ros2/ubuntu noble main" \
+        > /etc/apt/sources.list.d/ros2.list \
+    && apt-get -o Acquire::Check-Valid-Until=false update \
+    && apt-get install -y --no-install-recommends \
+        ros-jazzy-ros-base \
+        ros-jazzy-sensor-msgs \
+        ros-jazzy-geometry-msgs \
+        ros-jazzy-std-msgs \
+        ros-jazzy-std-srvs \
+        ros-jazzy-rosbridge-server \
+    && rm -rf /var/lib/apt/lists/*
+
+# Make ROS2 available to interactive / docker exec shells.
+RUN echo "source /opt/ros/jazzy/setup.bash" >> /etc/bash.bashrc
+
+WORKDIR /work/lerobot
