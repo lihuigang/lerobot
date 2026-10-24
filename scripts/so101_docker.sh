@@ -14,8 +14,8 @@ SO101_DURATION=${SO101_DURATION:-20}
 
 FOLLOWER_PORT=/dev/serial/by-id/usb-1a86_USB_Single_Serial_5C4C127069-if00
 LEADER_PORT=/dev/serial/by-id/usb-1a86_USB_Single_Serial_5C4C128225-if00
-FRONT_PORT=/dev/v4l/by-id/usb-icSpring_icspring_camera-video-index0
-HANDEYE_PORT=/dev/v4l/by-id/usb-icSpring_icspring_camera_202404160005-video-index0
+FRONT_PORT=/dev/v4l/by-id/usb-icSpring_icspring_camera_202404160005-video-index0
+HANDEYE_PORT=/dev/v4l/by-id/usb-icSpring_icspring_camera-video-index0
 CAL_HOST=/home/lihuigang/.cache/huggingface/lerobot/calibration
 FOLLOWER_ID=my_awesome_follower_arm
 LEADER_ID=my_awesome_leader_arm
